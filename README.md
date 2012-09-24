@@ -14,12 +14,14 @@ If you want to run workers from outside of an irb context, you'll probably want 
 
 Workflows
 =========
-
-    require './lib/swf' # this should do all the path munging and requiring necessary
+    ```ruby
+    require './lib/swf' # this should do all the path munging and requiring necessary, see feature-matrix/lib/swf.rb for example
     require 'myactivity'
 
     module MyWorkflow
 
+      # this tells SWF what workflow type this module handles
+      # it is currently a one-to-one correspondance
       def self.workflow_type
         SWF::Workflows.effect_workflow_type('foobar_workflow', '1',
           default_child_policy: :request_cancel,
@@ -28,6 +30,7 @@ Workflows
         )
       end
 
+      # this is the method you call to kick off a workflow execution
       def self.start(input_param, execution_options = {})
         execution_options[:task_list] ||= SWF.task_list
         execution_options.merge!({
@@ -40,9 +43,9 @@ Workflows
       end
 
       class DecisionTaskHandler < SWF::DecisionTaskHandler
-        register('foobar_workflow', '1')
+        register('foobar_workflow', '1') # registers the class with the workflow type
 
-        # this method "magically" gets called when a workflow of ('foobar_workflow', 1) is executed, and on new events
+        # the decider will poll for new events, if they are of type ('foobar_workflow', '1') they will get passed to handle
         def handle
           new_events.each {|event|
             case event.event_type
@@ -56,17 +59,22 @@ Workflows
               decision_task.complete_workflow_execution
             end
           }
+
+          # if you care about not just new events:
+          # events.map {|e| e }
         end
       end
     end
 
 Activities
 ==========
+    ```ruby
     require './lib/swf' # this should do all the path munging and requiring necessary
 
     module MyActivity
 
-      def self.activity_type_combine_output runner
+      # this tells SWF what activity types this module can handle
+      def self.activity_type_foobar_activity(runner)
         runner.effect_activity_type('foobar_activity', '1',
           default_task_heartbeat_timeout:             3600,
           default_task_schedule_to_start_timeout:     3600,
@@ -75,6 +83,15 @@ Activities
         )
       end
 
+      # a single module can handle many activity types
+      def self.activity_type_lorem_activity(runner)
+         runner.effect_activity_type('lorem_activity', '1',
+          default_task_heartbeat_timeout:             3600,
+          default_task_schedule_to_start_timeout:     3600,
+          default_task_schedule_to_close_timeout:     7200,
+          default_task_start_to_close_timeout:        3600
+        )
+      end
 
       class ActivityTaskHandler < SWF::ActivityTaskHandler
         register
@@ -83,6 +100,11 @@ Activities
         def handle_foobar_activity
           puts activity_task_ipnut["input_param"]
           puts activity_task_input["other_param"]
+        end
+
+        # likewise for ("lorem_activity", "1")
+        def handle_lorem_activity
+
         end
       end
     end
