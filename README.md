@@ -20,26 +20,16 @@ require 'myactivity'
 
 module MyWorkflow
 
+  extend SWF::Workflows
+
   # this tells SWF what workflow type this module handles
   # it is currently a one-to-one correspondance
   def self.workflow_type
-    SWF::Workflows.effect_workflow_type('foobar_workflow', '1',
+    effect_workflow_type('foobar_workflow', '1',
       default_child_policy: :request_cancel,
       default_task_start_to_close_timeout:      3600,
       default_execution_start_to_close_timeout: 3600,
     )
-  end
-
-  # this is the method you call to kick off a workflow execution
-  def self.start(input_param, execution_options = {})
-    execution_options[:task_list] ||= SWF.task_list
-    execution_options.merge!({
-      input: {
-        input_param: input_param
-      }.to_json
-    })
-
-    workflow_type.start_execution(execution_options)
   end
 
   class DecisionTaskHandler < SWF::DecisionTaskHandler
