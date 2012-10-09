@@ -14,14 +14,29 @@ module SWF::Boot
     child_pids =  deciders.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
-        swf_runner.be_decider
+        begin
+          swf_runner.be_decider
+        rescue => e
+
+          File.open("/tmp/#{[Time.now.to_i, rand(0xFFFFFFFF)].compact.map(&:to_s).join('-')}",'w'){|f|
+            f.puts e
+            f.puts e.backtrace.join("\n")
+          }
+        end
       }
     }
 
     child_pids += workers.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
-        swf_runner.be_worker
+        begin
+          swf_runner.be_worker
+        rescue => e
+          File.open("/tmp/#{[Time.now.to_i, rand(0xFFFFFFFF)].compact.map(&:to_s).join('-')}",'w'){|f|
+            f.puts e
+            f.puts e.backtrace.join("\n")
+          }
+        end
       }
     }
 
