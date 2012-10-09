@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
-
+require 'json'
 require 'swf/runner'
 
 module SWF; end
 
 module SWF::Boot
+
+  class StartupFailure < StandardError; end
 
   extend self
 
@@ -14,14 +16,20 @@ module SWF::Boot
     child_pids =  deciders.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
+        rescued = false
         begin
           swf_runner.be_decider
         rescue => e
-
-          File.open("/tmp/#{[Time.now.to_i, rand(0xFFFFFFFF)].compact.map(&:to_s).join('-')}",'w'){|f|
-            f.puts e
-            f.puts e.backtrace.join("\n")
+          error = {
+            error: e.to_s,
+            backtrace: e.backtrace.join("\n")
           }
+          if rescued
+            raise SWF::Boot::StartupFailure, JSON.pretty_unparse(error)
+          else
+            rescued = true
+            retry
+          end
         end
       }
     }
@@ -29,13 +37,23 @@ module SWF::Boot
     child_pids += workers.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
+        rescued = false
         begin
           swf_runner.be_worker
         rescue => e
-          File.open("/tmp/#{[Time.now.to_i, rand(0xFFFFFFFF)].compact.map(&:to_s).join('-')}",'w'){|f|
-            f.puts e
-            f.puts e.backtrace.join("\n")
+          error_json = {
+            error: e.to_s,
+            backtrace: e.backtrace.join("\n")
           }
+
+          # log the error to s3
+          `echo '#{JSON.pretty_unparse(error_json)}' | ruby /data/machine-learning/feature-matrix/ec2/s3_logger.rb workers`
+
+          unless rescued
+            rescued = true
+            retry
+          end
+
         end
       }
     }

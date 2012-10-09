@@ -27,11 +27,12 @@ module SWF
 
   SLOT_TIME = 1
 
-  def domains(d)
+  def domain_exists?(d)
     collision = 0
     begin
-      swf.domains[d]
+      swf.domains[d].exists?
     rescue => e
+
       collision += 1 if collision < 10
       max_slot_delay = 2**collision - 1
       sleep(SLOT_TIME * rand(0 .. max_slot_delay))
@@ -41,9 +42,8 @@ module SWF
 
   def domain
     # if we need a new domain, make it in the aws console
-
-    raise UnknownSWFDomain, "#{domain_name} is not a valid SWF domain" unless domains(domain_name).exists?
-    domains(domain_name)
+    raise UnknownSWFDomain, "#{domain_name} is not a valid SWF domain" unless domain_exists?(domain_name)
+    swf.domains[domain_name]
   end
 
   def task_list= tl

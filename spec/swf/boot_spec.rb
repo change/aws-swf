@@ -62,6 +62,26 @@ describe SWF::Boot do
         SWF::Boot.startup(0,5,true)
       end
     end
+
+    context 'error handling' do
+      before do
+        SWF::Boot.stub(:swf_runner) {
+          double(:runner).tap {|runner|
+            runner.stub(:be_worker) { raise StandardError }
+            runner.stub(:be_decider) { raise StandardError }
+          }
+        }
+      end
+      it 'forks deciders' do
+        Process.should_receive(:fork).exactly(5).times do |&blk|
+          Process.should_receive(:daemon)
+          SWF::Boot.should_receive(:swf_runner).twice
+          ->{blk.call}.should raise_exception(SWF::Boot::StartupFailure)
+        end
+        Process.should_receive(:detach).exactly(5).times
+        SWF::Boot.startup(5,0,false)
+      end
+    end
   end
 
   describe '.terminate_children' do
