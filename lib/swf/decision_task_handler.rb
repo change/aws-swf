@@ -65,15 +65,15 @@ module SWF
       1
     end
 
-    def tags(collision = 0)
+    def tags
+      collision = 0
       begin
-        # truncated exponential backoff
-        max_slot_delay = 2**collision - 1
-        sleep(slot_time * rand(0 .. max_slot_delay))
         decision_task.workflow_execution.tags
       rescue => e
         collision += 1 if collision < 10
-        tags(collision)
+        max_slot_delay = 2**collision - 1
+        sleep(slot_time * rand(0 .. max_slot_delay))
+        retry
       end
     end
 
