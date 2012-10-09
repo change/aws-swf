@@ -30,7 +30,7 @@ module SWF
   def domains
     collision = 0
     begin
-      swf.domains
+      swf.domains.to_h
     rescue => e
       collision += 1 if collision < 10
       puts "Collision #{collision}"
