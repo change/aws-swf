@@ -56,9 +56,13 @@ module SWF
       }
     end
 
-    # slot time of 51.2 microseconds
+    # slot time of 51.2 microseconds is way too little
+    # even 1 second still results in collision growing
+    # but it doesn't seem to get to 10 so we'll leave
+    # it at that for now
     def slot_time
-      5.12e-5
+      #5.12e-5 # you wish
+      1
     end
 
     def tags(collision = 0)
