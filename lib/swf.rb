@@ -42,7 +42,7 @@ module SWF
 
   def domain
     # if we need a new domain, make it in the aws console
-    raise UnknownSWFDomain, "#{domain_name} is not a valid SWF domain" unless domain_exists?(domain_name)
+    raise UnknownSWFDomain, "#{domain_name} is not a valid SWF domain" unless swf.domains[domain_name].exists? # force error #domain_exists?(domain_name)
     swf.domains[domain_name]
   end
 

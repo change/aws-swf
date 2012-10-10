@@ -12,8 +12,6 @@ module SWF::Boot
   extend self
 
   def startup(deciders, workers, wait_for_children = false, &at_rescue)
-    # may need to use Process.spawn to deal with file descripter being stale mumbo jumbo
-
     child_pids =  deciders.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
@@ -28,11 +26,11 @@ module SWF::Boot
           if rescued
             begin
               raise SWF::Boot::DeciderStartupFailure, JSON.pretty_unparse(error)
-            rescue => e
+            rescue SWF::Boot::DeciderStartupFailure => rescued_e
               if at_rescue
-                at_rescue.call(e)
+                at_rescue.call(rescued_e)
               else
-                raise e
+                raise rescued_e
               end
             end
           else
@@ -40,11 +38,10 @@ module SWF::Boot
             retry
           end
         end
-
       }
     }
-    child_pids += workers.to_i.times.map {
 
+    child_pids += workers.to_i.times.map {
       Process.fork {
         Process.daemon(true) unless wait_for_children
         rescued = false
@@ -56,12 +53,19 @@ module SWF::Boot
             backtrace: e.backtrace.join("\n")
           }
           if rescued
-            raise SWF::Boot::WorkerStartupFailure, JSON.pretty_unparse(error)
+            begin
+              raise SWF::Boot::WorkerStartupFailure, JSON.pretty_unparse(error)
+            rescue SWF::Boot::WorkerStartupFailure => rescued_e
+              if at_rescue
+                at_rescue.call(rescued_e)
+              else
+                raise rescued_e
+              end
+            end
           else
             rescued = true
             retry
           end
-
         end
       }
     }
