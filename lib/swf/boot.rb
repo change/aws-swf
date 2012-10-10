@@ -20,7 +20,7 @@ module SWF::Boot
           swf_runner.be_decider
         rescue => e
           error = {
-            error: e.to_s,
+            error: e.inspect,
             backtrace: e.backtrace
           }
           if rescued
@@ -28,7 +28,7 @@ module SWF::Boot
               raise SWF::Boot::DeciderStartupFailure, JSON.pretty_unparse(error)
             rescue SWF::Boot::DeciderStartupFailure => rescued_e
               if at_rescue
-                at_rescue.call(rescued_e)
+                at_rescue.call(rescued_e.to_s)
               else
                 raise rescued_e
               end
@@ -49,7 +49,7 @@ module SWF::Boot
           swf_runner.be_worker
         rescue => e
           error = {
-            error: e.to_s,
+            error: e.inspect,
             backtrace: e.backtrace
           }
           if rescued
@@ -57,7 +57,7 @@ module SWF::Boot
               raise SWF::Boot::WorkerStartupFailure, JSON.pretty_unparse(error)
             rescue SWF::Boot::WorkerStartupFailure => rescued_e
               if at_rescue
-                at_rescue.call(rescued_e)
+                at_rescue.call(rescued_e.to_s)
               else
                 raise rescued_e
               end
@@ -82,7 +82,6 @@ module SWF::Boot
 
     child_pids
 
-    # at_exit.call(child_pids) if at_exit
   end
 
   def terminate_children(child_pids)
