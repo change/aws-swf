@@ -66,14 +66,16 @@ module SWF
     end
 
     def tags
-      collision = 0
-      begin
-        decision_task.workflow_execution.tags
-      rescue => e
-        collision += 1 if collision < 10
-        max_slot_delay = 2**collision - 1
-        sleep(slot_time * rand(0 .. max_slot_delay))
-        retry
+      runner.tag_lists[decision_task.workflow_execution] ||= begin
+        collision = 0
+        begin
+          decision_task.workflow_execution.tags
+        rescue => e
+          collision += 1 if collision < 10
+          max_slot_delay = 2**collision - 1
+          sleep(slot_time * rand(0 .. max_slot_delay))
+          retry
+        end
       end
     end
 

@@ -23,6 +23,12 @@ module SWF
       }
     end
 
+    # these are static for workflow executions
+    # so no need to refetch per decision_task
+    def tag_lists
+      @tag_lists ||= {}
+    end
+
     def domain
       @domain ||= begin
         SWF.domain_name = domain_name
