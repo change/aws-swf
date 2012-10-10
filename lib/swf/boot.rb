@@ -21,7 +21,7 @@ module SWF::Boot
         rescue => e
           error = {
             error: e.to_s,
-            backtrace: e.backtrace.join("\n")
+            backtrace: e.backtrace
           }
           if rescued
             begin
@@ -50,7 +50,7 @@ module SWF::Boot
         rescue => e
           error = {
             error: e.to_s,
-            backtrace: e.backtrace.join("\n")
+            backtrace: e.backtrace
           }
           if rescued
             begin
