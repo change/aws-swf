@@ -6,11 +6,12 @@ module SWF; end
 
 module SWF::Boot
 
-  class StartupFailure < StandardError; end
+  class DeciderStartupFailure < StandardError; end
+  class WorkerStartupFailure < StandardError; end
 
   extend self
 
-  def startup(deciders, workers, wait_for_children = false)
+  def startup(deciders, workers, wait_for_children = false, &at_rescue)
     # may need to use Process.spawn to deal with file descripter being stale mumbo jumbo
 
     child_pids =  deciders.to_i.times.map {
@@ -25,31 +26,38 @@ module SWF::Boot
             backtrace: e.backtrace.join("\n")
           }
           if rescued
-            raise SWF::Boot::StartupFailure, JSON.pretty_unparse(error)
+            begin
+              raise SWF::Boot::DeciderStartupFailure, JSON.pretty_unparse(error)
+            rescue => e
+              if at_rescue
+                at_rescue.call(e)
+              else
+                raise e
+              end
+            end
           else
             rescued = true
             retry
           end
         end
+
       }
     }
-
     child_pids += workers.to_i.times.map {
+
       Process.fork {
         Process.daemon(true) unless wait_for_children
         rescued = false
         begin
           swf_runner.be_worker
         rescue => e
-          error_json = {
+          error = {
             error: e.to_s,
             backtrace: e.backtrace.join("\n")
           }
-
-          # log the error to s3
-          `echo '#{JSON.pretty_unparse(error_json)}' | ruby /data/machine-learning/feature-matrix/ec2/s3_logger.rb workers`
-
-          unless rescued
+          if rescued
+            raise SWF::Boot::WorkerStartupFailure, JSON.pretty_unparse(error)
+          else
             rescued = true
             retry
           end
@@ -67,6 +75,10 @@ module SWF::Boot
     else
       child_pids.each {|pid| Process.detach(pid) }
     end
+
+    child_pids
+
+    # at_exit.call(child_pids) if at_exit
   end
 
   def terminate_children(child_pids)

@@ -72,14 +72,25 @@ describe SWF::Boot do
           }
         }
       end
-      it 'forks deciders' do
+      it 'fails on deciders' do
         Process.should_receive(:fork).exactly(5).times do |&blk|
           Process.should_receive(:daemon)
           SWF::Boot.should_receive(:swf_runner).twice
-          ->{blk.call}.should raise_exception(SWF::Boot::StartupFailure)
+          ->{blk.call}.should raise_exception(SWF::Boot::DeciderStartupFailure)
         end
         Process.should_receive(:detach).exactly(5).times
         SWF::Boot.startup(5,0,false)
+      end
+
+      it 'fails on workers' do
+          Process.should_receive(:fork).exactly(5).times do |&blk|
+          Process.should_receive(:daemon)
+          SWF::Boot.should_receive(:swf_runner).twice
+          ->{blk.call}.should raise_exception(SWF::Boot::WorkerStartupFailure)
+        end
+        Process.should_receive(:detach).exactly(5).times
+        SWF::Boot.startup(0,5,false)
+
       end
     end
   end
