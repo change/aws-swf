@@ -32,7 +32,6 @@ module SWF
     begin
       swf.domains[d].exists?
     rescue => e
-
       collision += 1 if collision < 10
       max_slot_delay = 2**collision - 1
       sleep(SLOT_TIME * rand(0 .. max_slot_delay))
