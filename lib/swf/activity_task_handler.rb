@@ -25,7 +25,7 @@ module SWF
     end
 
     def self.fail! task, args={}
-      task.fail! args
+      task.fail!(args)
     end
 
     def self.find_handler_class task

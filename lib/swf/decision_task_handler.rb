@@ -16,7 +16,7 @@ module SWF
     end
 
     def self.fail! task, args={}
-      task.fail_workflow_execution args
+      task.fail_workflow_execution(args)
     end
 
     def self.find_handler_class task

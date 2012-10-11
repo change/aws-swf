@@ -21,17 +21,17 @@ module SWF
         begin
           details_json = JSON.pretty_unparse({
             handler_class: handler_class && handler_class.name,
-            # handler:       handler.inspect,
-            handler:       handler.to_s,
+            handler:       handler.inspect,
             error:         e.inspect,
             backtrace:     e.backtrace,
             })
           puts details_json
-          fail! task, reason: "handler raised error", details: details_json
+          fail!(task, reason: "handler raised error", details: details_json[0...32768])
         rescue
           msg = "FAIL to handle fail!!"
           puts msg
-          fail! task, reason: msg
+          # failing again will cause #<RuntimeError: already responded>
+          #fail!(task, reason: msg)
           raise
         end
 
@@ -45,7 +45,7 @@ module SWF
         unless handler_class
           details_text = "This is a configuration issue.\n#{configuration_help_message}"
           puts details_text
-          fail! task, reason: "unknown type", details: details_text
+          fail!(task, reason: "unknown type", details: details_text)
           return
         end
       }
