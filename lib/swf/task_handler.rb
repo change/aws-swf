@@ -21,7 +21,7 @@ module SWF
         begin
           details_json = JSON.pretty_unparse({
             handler_class: handler_class && handler_class.name,
-            handler:       handler.inspect,
+            handler:       handler.to_s,
             error:         e.inspect,
             backtrace:     e.backtrace,
             })
