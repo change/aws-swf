@@ -4,7 +4,7 @@ module SWF
 
   class MissingWorkflowStartedEvent < StandardError; end
 
-  # subclass must call .register(name, version), and define #handle(runner, task)
+  # subclass must call .register(name, version), and define #handle
   class DecisionTaskHandler
     extend TaskHandler
 

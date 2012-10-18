@@ -3,7 +3,7 @@ require 'set'
 
 module SWF
 
-  # subclass must call .register(), and define #handle(runner, task)
+  # subclass must call .register(), and define #handle_<activity_type.name>
   class ActivityTaskHandler
     extend TaskHandler
 
