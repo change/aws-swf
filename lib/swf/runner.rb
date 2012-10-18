@@ -13,13 +13,15 @@ module SWF
 
     def be_decider
       domain.decision_tasks.poll(task_list) {|decision_task|
-        DecisionTaskHandler.handle(self, decision_task)
+        decision_pid = Process.fork { DecisionTaskHandler.handle(self, decision_task) }
+        Process.waitpid2(decision_pid)
       }
     end
 
     def be_worker
       domain.activity_tasks.poll(task_list) {|activity_task|
-        ActivityTaskHandler.handle(self, activity_task)
+        activity_pid = Process.fork { ActivityTaskHandler.handle(self, activity_task) }
+        Process.waitpid2(activity_pid)
       }
     end
 

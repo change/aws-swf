@@ -28,8 +28,8 @@ module SWF
       task.fail!(args)
     end
 
-    def self.find_handler_class task
-      @@handler_classes.find {|x| x.instance_methods.include? handler_method_name task }
+    def self.find_handler_class(task)
+      @@handler_classes.find {|x| x.instance_methods.include?(handler_method_name(task)) }
       # TODO: detect when two classes define the same named handle_* method ?!?!
     end
 
@@ -38,7 +38,7 @@ module SWF
       "I only have these classes: #{@@handler_classes.inspect}"
     end
 
-    def self.handler_method_name task
+    def self.handler_method_name(task)
       "handle_#{task.activity_type.name}".to_sym
     end
 
