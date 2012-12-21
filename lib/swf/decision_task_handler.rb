@@ -65,6 +65,8 @@ module SWF
       1
     end
 
+    # exponential backoff handles rate limiting exceptions
+    # when querying tags on a workflow execution.
     def tags
       runner.tag_lists[decision_task.workflow_execution] ||= begin
         collision = 0
