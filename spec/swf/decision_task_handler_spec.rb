@@ -47,8 +47,42 @@ describe subject_class do
     end
   end
 
+  let(:new_events) {[
+    double(:event,
+      event_type: 'new_event',
+      new?: true
+    ),
+    double(:event,
+      event_type: 'another_new_event',
+      new?: true
+    )
+  ]}
+
+  let(:old_events) {[
+    double(:event,
+      event_type: 'old_event',
+      new?: false
+    ),
+    double(:event,
+      event_type: 'another_old_event',
+      new?: false
+    )
+  ]}
+
   describe '#new_events' do
-    it 'enumerates over new events'
+    before do
+      subject.decision_task.stub(:events) {
+        new_events + old_events
+      }
+    end
+
+    it 'enumerates over new events' do
+      subject.send(:new_events).each {|e|
+        new_events.include?(e).should be_true
+        old_events.include?(e).should be_false
+      }
+    end
+
   end
 
   let(:workflow_started_input){ {"foo" => "bar"} }

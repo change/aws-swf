@@ -19,8 +19,7 @@ module SWF
 
     def be_worker
       domain.activity_tasks.poll(task_list) {|activity_task|
-        activity_pid = Process.fork { ActivityTaskHandler.handle(self, activity_task) }
-        Process.waitpid2(activity_pid)
+        ActivityTaskHandler.handle(self, activity_task)
       }
     end
 

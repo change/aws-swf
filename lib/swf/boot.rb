@@ -97,6 +97,7 @@ module SWF::Boot
   end
 
   def settings
+    # override this in your usage to pull settings from, e.g., ENV or EC2 tags
     {domain_name: 'domain', task_list_name: 'task_list_name'}
   end
 
