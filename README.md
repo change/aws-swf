@@ -1,11 +1,11 @@
-SWF
+aws-swf
 ==========
 
 This is our SWF wrapper library. It will likely eventually be gemified.
 
-For now, you can follow the example in ../feature-matrix/ to see how to use it.
+For now, you can follow the example in sample-app/ to see how to use it.
 
-Basically, you'll want to require `swf`, `workflows`, `swf/boot`, `swf/decision_task_handler` and `swf/activity_task_handler` (in feature-matrix, we have a `lib/swf.rb` that does all this for you)
+Basically, you'll want to require `swf`, `workflows`, `swf/boot`, `swf/decision_task_handler` and `swf/activity_task_handler` (in sample-app, we have a `lib/swf.rb` that does all this for you)
 
 You will probably want your own `lib/swf/boot.rb` and `lib/swf/runner.rb` that get your SWF domain, task list, and anything else important for all workflows/activities to have access to.
 
@@ -15,7 +15,7 @@ If you want to run workers from outside of an irb context, you'll probably want 
 Workflows
 =========
 ```ruby
-require './lib/swf' # this should do all the path munging and requiring necessary, see feature-matrix/lib/swf.rb for example
+require './lib/swf' # this should do all the path munging and requiring necessary, see sample-app/lib/swf.rb for example
 require 'myactivity'
 
 module MyWorkflow
