@@ -57,6 +57,26 @@ class DecisionTaskHandler < SWF::DecisionTaskHandler
 end
 ```
 
+There is a one-to-one correspondance between a workflow module and a workflow type on SWF. Your application might well consist of multiple workflow modules, however, where a parent workflow spawns child workflows:
+
+```
+def handle
+  new_events.each {|event|
+    case event.event_type
+    when 'WorkflowExecutionStarted'
+      10.times.map {|i|
+        decision_task.start_child_workflow_execution(
+          AnotherWorkflow.workflow_type,
+          input: some_input_function(i),
+          task_list: "#{decision_task.workflow_execution.task_list}", # or change the task-list if you want, e.g., different hardware to pick up this child workflow
+          tag_list: some_tag_function(i)
+        )
+      }
+    ...
+  }
+end
+```
+
 ###[SampleApp::SampleActivity](sample-app/lib/sample_activity.rb)
 
 Launching a Workflow
