@@ -1,7 +1,7 @@
-require './lib/swf/boot'
+require './lib/boot'
 
 describe SampleApp::Boot do
-  let (:settings) { double(:settings) }
+  let(:settings) { double(:settings) }
   before do
     SampleApp::Boot.stub(:settings) { settings }
   end

@@ -10,12 +10,11 @@ module SampleApp
     end
 
     def be_worker
-      before_worker # <picard> make it so! </picard>
+      before_work # <picard> make it so! </picard>
       super
     end
 
-    def before_worker
-      # it's off to work we go!
-    end
+    def before_work; end
+
   end
 end
