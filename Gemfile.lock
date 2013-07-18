@@ -22,6 +22,7 @@ GEM
     multi_json (1.3.6)
     multi_xml (0.5.1)
     nokogiri (1.5.5)
+    rake (10.0.3)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -38,4 +39,5 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (= 1.6.4)
   debugger
+  rake
   rspec
