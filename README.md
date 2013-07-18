@@ -21,7 +21,7 @@ extends [SWF::Boot](lib/swf/boot.rb), defines `swf_runner` which calls your Runn
 ###[SampleApp::Runner](sample-app/lib/runner.rb)
 subclass of [SWF::Runner](lib/swf/runner.rb), allows you to setup any global settings you want accessible to all workers. You can also redefine `be_worker` or `be_decider` to add before and after hooks:
 
-```
+```ruby
 def be_worker
   # we want this to be done before any activity handler
   # reports to SWF it is ready to pick up an activity task
@@ -33,7 +33,7 @@ end
 ###[SampleApp::SampleWorkflow](sample-app/lib/sample_workflow.rb)
 A workflow extends [SWF::Workflow](lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type. Note that if you change one of these defaults, you must increment WORKFLOW_VERSION:
 
-```
+```ruby
 def self.workflow_type
   effect_workflow_type(WORKFLOW_TYPE, WORKFLOW_VERSION,
     default_child_policy:                     :request_cancel,
@@ -47,7 +47,7 @@ See the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWo
 
 The workflow module should also have a DecisionTaskHandler inner-class that registers and defines `handle`. This method will be called as new events occur.
 
-```
+```ruby
 class DecisionTaskHandler < SWF::DecisionTaskHandler
   register(WORKFLOW_TYPE, WORKFLOW_VERSION)
 
@@ -59,7 +59,7 @@ end
 
 There is a one-to-one correspondance between a workflow module and a workflow type on SWF. Your application might well consist of multiple workflow modules, however, where a parent workflow spawns child workflows:
 
-```
+```ruby
 def handle
   new_events.each {|event|
     case event.event_type
@@ -82,7 +82,7 @@ end
 Launching a Workflow
 =====================
 
-```
+```ruby
 SampleApp::SampleWorkflow.start(
   options,
   execution_start_to_close_timeout: timeout,
