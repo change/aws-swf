@@ -18,8 +18,6 @@ describe SampleWorkflow do
 
   let(:task_list){ 'lorem_task_list' }
 
-
-
   describe SampleWorkflow::DecisionTaskHandler do
 
     let(:decision_task) {
@@ -33,9 +31,7 @@ describe SampleWorkflow do
     let(:handler) { SampleWorkflow::DecisionTaskHandler.new(runner, decision_task) }
     let(:workflow_started_input) {
       {
-        "s3_input"   => "input",
-        "s3_output"  => "output",
-        "parameters" => {"some" => "params"}
+        "input_param" => "input"
       }
     }
 
@@ -106,7 +102,7 @@ describe SampleWorkflow do
       describe '#schedule_sample_activity' do
         it 'schedules an activity_type_sample_activity activity task with the proper arguments' do
           SampleActivity.stub(:activity_type_sample_activity).and_return(:activity_type_sample_activity)
-          activity_task_input = workflow_started_input.merge({other_param: "foobar"})
+          activity_task_input = workflow_started_input.merge({other_param: "injected"})
           decision_task.should_receive(:schedule_activity_task).with(:activity_type_sample_activity, input: activity_task_input, task_list: task_list)
           handler.send(:schedule_sample_activity)
         end

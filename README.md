@@ -42,7 +42,7 @@ def self.workflow_type
   )
 end
 ```
-See [the aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters.
+See the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters.
 
 
 The workflow module should also have a DecisionTaskHandler inner-class that registers and defines `handle`. This method will be called as new events occur.

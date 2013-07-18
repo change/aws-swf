@@ -41,7 +41,7 @@ module SampleWorkflow
     def schedule_sample_activity
       decision_task.schedule_activity_task(
         SampleActivity.activity_type_sample_activity(runner),
-        input: workflow_input.merge({other_param: 'foobar'}),
+        input: workflow_input.merge({other_param: 'injected'}),
         task_list: workflow_task_list
       )
     end

@@ -27,8 +27,7 @@ module SampleActivity
 
     # this method "magically" gets called when an activity of type ("sample_activity", 1) is scheduled
     def handle_sample_activity
-      puts activity_task_input["input_param"]
-      puts activity_task_input["other_param"]
+      { input_param: activity_task_input["input_param"], other_param: activity_task_input["other_param"] }.to_json
     end
 
     # likewise for ("other_activity", "1")
