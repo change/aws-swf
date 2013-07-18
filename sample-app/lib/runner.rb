@@ -16,5 +16,13 @@ module SampleApp
 
     def before_work; end
 
+    def s3_bucket
+      AWS::S3.new.buckets[settings[:s3_bucket]]
+    end
+
+    def s3_path
+      settings[:s3_path]
+    end
+
   end
 end

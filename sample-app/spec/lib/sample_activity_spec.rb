@@ -10,9 +10,19 @@ describe SampleActivity do
       local_data_dir: '/tmp'
     }
   }
+  let(:s3_object) { double(:s3_object) }
+  let(:s3_bucket) {
+    double(:s3_bucket,
+      objects: double(:s3_objects).tap {|s3_objects|
+        s3_objects.stub(:[]).with(test_run_identifier) { s3_object }
+      }
+    )
+  }
   let(:runner){
     double(:runner,
-      settings: settings
+      settings: settings,
+      s3_bucket: s3_bucket,
+      s3_path: test_run_identifier
     )
   }
 
@@ -40,11 +50,10 @@ describe SampleActivity do
 
     let(:handler) { SampleActivity::ActivityTaskHandler.new(runner, activity_task) }
 
-
-    let(:input){ JSON.parse(activity_task.input) }
     describe '#handle_sample_activity' do
       it "returns the params" do
-        handler.send(:handle_sample_activity).should == activity_input.to_json
+        s3_object.should_receive(:write).with(activity_input.to_json)
+        handler.send(:handle_sample_activity)
       end
     end
   end

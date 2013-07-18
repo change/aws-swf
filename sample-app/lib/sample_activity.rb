@@ -28,7 +28,12 @@ module SampleActivity
     # this method "magically" gets called when an activity of type ("sample_activity", 1) is scheduled
     def handle_sample_activity
       # do some computation, store results to s3, etc.
-      { input_param: activity_task_input["input_param"], other_param: activity_task_input["other_param"] }.to_json
+      runner.s3_bucket.objects[runner.s3_path].write(
+        {
+          input_param: activity_task_input["input_param"],
+          other_param: activity_task_input["other_param"]
+        }.to_json
+      )
     end
 
     # likewise for ("other_activity", "1")
