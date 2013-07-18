@@ -31,7 +31,7 @@ end
 ```
 
 ###[SampleApp::SampleWorkflow](sample-app/lib/sample_workflow.rb)
-A workflow extends [SWF::Workflow](lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type. Note that if you change one of these defaults, you must increment WORKFLOW_VERSION:
+A workflow extends [SWF::Workflow](lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type (See the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters). Note that if you change one of these defaults, you must increment `WORKFLOW_VERSION`:
 
 ```ruby
 def self.workflow_type
@@ -42,7 +42,6 @@ def self.workflow_type
   )
 end
 ```
-See the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters.
 
 
 The workflow module should also have a DecisionTaskHandler inner-class that registers and defines `handle`. This method will be called as new events occur.
