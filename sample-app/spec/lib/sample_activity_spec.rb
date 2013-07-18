@@ -10,6 +10,8 @@ describe SampleActivity do
       local_data_dir: '/tmp'
     }
   }
+
+  # we stub runner.s3_bucket.objects[test_run_identifier] to return our s3_object double
   let(:s3_object) { double(:s3_object) }
   let(:s3_bucket) {
     double(:s3_bucket,
@@ -30,8 +32,6 @@ describe SampleActivity do
 
 
   describe SampleActivity::ActivityTaskHandler do
-
-
     let(:activity_type){ double(:activity_type, name: 'sample_activity', version: '1') }
 
     let(:activity_input) {
