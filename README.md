@@ -31,7 +31,7 @@ end
 ```
 
 ###[SampleApp::SampleWorkflow](sample-app/lib/sample_workflow.rb)
-A workflow extends [SWF::Workflow](lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type (See the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters). Note that if you change one of these defaults, you must increment `WORKFLOW_VERSION`:
+A workflow extends [SWF::Workflow](lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type (see the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters). Note that if you change one of these defaults, you must increment `WORKFLOW_VERSION`:
 
 ```ruby
 def self.workflow_type
@@ -44,7 +44,7 @@ end
 ```
 
 
-The workflow module should also have a DecisionTaskHandler inner-class that registers and defines `handle`. This method will be called as new events occur.
+The workflow module should also have a `DecisionTaskHandler` inner-class that registers and defines `handle`. This method will be called as new events occur.
 
 ```ruby
 class DecisionTaskHandler < SWF::DecisionTaskHandler
@@ -77,14 +77,42 @@ end
 ```
 
 ###[SampleApp::SampleActivity](sample-app/lib/sample_activity.rb)
+An activity module can handle multiple activity types. For each it must define a `self.activity_type_<activity_name>` method that receives a runner and calls `runner.effect_activity_type`. This is where you can set activity specific timeouts (again, [see the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/ActivityType.html))
+
+```ruby
+def self.activity_type_sample_activity(runner)
+  runner.effect_activity_type('sample_activity', '1',
+    default_task_heartbeat_timeout:             3600,
+    default_task_schedule_to_start_timeout:     3600,
+    default_task_schedule_to_close_timeout:     7200,
+    default_task_start_to_close_timeout:        3600
+  )
+end
+```
+
+Your activity module should also have a `ActivityTaskHandler` inner-class that registers and defines `handle_<activity_name>` methods to handle activity tasks as they are scheduled by decision tasks.
+
+```ruby
+class ActivityTaskHandler < SWF::ActivityTaskHandler
+  register
+
+  def handle_sample_activity
+    ...
+  end
+end
+```
+
+Launching workers
+=====================
+
 
 Launching a Workflow
 =====================
 
 ```ruby
-SampleApp::SampleWorkflow.start(
-  options,
-  execution_start_to_close_timeout: timeout,
+SampleWorkflow.start(
+  { input_param: "some input" },
+  execution_start_to_close_timeout: 3600,
 )
 ```
 
