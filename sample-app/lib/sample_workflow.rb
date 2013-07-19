@@ -31,6 +31,8 @@ module SampleWorkflow
           schedule_sample_activity
         when 'ActivityTaskCompleted'
           decision_task.complete_workflow_execution
+        when 'ActivityTaskFailed'
+          decision_task.fail_workflow_execution
         end
       }
       # if you care about not just new events:
