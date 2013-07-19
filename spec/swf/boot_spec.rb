@@ -2,7 +2,7 @@ require './lib/swf/boot'
 
 describe SWF::Boot do
   before do
-    $stdout.stub!(:write)
+    $stdout.stub(:write)
 
     SWF::Boot.stub(:settings) {
       { domain_name: 'phony_domain', task_list_name: 'phony_task_list'}
