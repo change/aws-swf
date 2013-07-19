@@ -18,7 +18,7 @@ An aws-swf application has a few basic components:
 
 
 ###[SampleApp::Boot](sample-app/lib/boot.rb)
-extends [SWF::Boot](lib/swf/boot.rb), loads settings from the environment, and defines `swf_runner` which calls your Runner, passing any settings.
+extends [SWF::Boot](lib/swf/boot.rb), loads settings from the environment (or a chef data bag, or s3, or locally on the worker node, etc), and defines `swf_runner` which calls your Runner, passing any settings.
 
 ```ruby
 module SampleApp::Boot
@@ -31,7 +31,7 @@ module SampleApp::Boot
   end
 
   def settings
-    @settings ||= {
+    {
       swf_domain:     ENV["SWF_DOMAIN"],
       s3_bucket:      ENV["S3_BUCKET"],
       s3_path:        ENV["S3_PATH"],
