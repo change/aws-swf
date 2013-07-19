@@ -112,23 +112,31 @@ end
 TODO
 
 #####Child workflows
-There is a one-to-one correspondance between a workflow module and a workflow type on SWF. Your application might well consist of multiple workflow modules, however, where a parent workflow spawns child workflows:
+There is a one-to-one correspondance between a workflow module and a workflow type on SWF. However, an application may have multiple child workflows that a parent workflow initiates and handles.
 
 ```ruby
 def handle
+  child_workflow_failed = false
+  scheduled_child_workflows = []
+  completed_child_workflows = []
   new_events.each {|event|
     case event.event_type
     when 'WorkflowExecutionStarted'
-      10.times.map {|i|
-        decision_task.start_child_workflow_execution(
-          AnotherWorkflow.workflow_type,
-          input: some_input_function(i),
-          task_list: "#{decision_task.workflow_execution.task_list}", # or change the task-list if you want, e.g., different hardware to pick up this child workflow
-          tag_list: some_tag_function(i)
-        )
-      }
-    ...
+      schedule_child_workflows
+    when 'ChildWorkflowExecutionStarted'
+      scheduled_child_workflows << event.event_id
+    when 'ChildWorkflowExecutionFailed'
+      child_workflow_failed = true
+    when 'ChildWorkflowExecutionCompleted'
+      completed_child_workflows << event.attributes.initiated_event_id
+    end
   }
+
+  if child_workflow_failed
+    decision_task.fail_workflow_execution
+  elsif (scheduled_child_workflows - completed_child_workflows).empty?
+    decision_task.complete_workflow_execution
+  end
 end
 ```
 
