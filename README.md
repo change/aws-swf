@@ -102,13 +102,14 @@ class ActivityTaskHandler < SWF::ActivityTaskHandler
 end
 ```
 
-Launching workers
+Launching Workers
 =====================
-
+```
+$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR ruby ./bin/swf_run.rb d d w w w
+```
 
 Launching a Workflow
 =====================
-
 ```ruby
 SampleWorkflow.start(
   { input_param: "some input" },
@@ -116,3 +117,4 @@ SampleWorkflow.start(
 )
 ```
 
+See [the integration spec](sample-app/spec/integration/sample_workflow_spec.rb) for an end-to-end example.
