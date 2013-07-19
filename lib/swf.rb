@@ -1,5 +1,3 @@
-# until we gemify SWF, do some path munging
-$:.unshift(File.join(File.expand_path(File.dirname(__FILE__))))
 require 'aws-sdk'
 
 module SWF

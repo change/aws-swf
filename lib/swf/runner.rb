@@ -1,7 +1,6 @@
 require 'swf'
 
 module SWF
-
   class Runner
 
     attr_reader :domain_name, :task_list_name
