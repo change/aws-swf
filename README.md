@@ -219,6 +219,7 @@ $ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=
 TODO
 - demonstrate starting workers on multiple physical resources
 - demonstrate automating launching EC2 resources, using tags to bootstrap
+- demonstrate rescue logging to S3
 
 
 ###Starting a Workflow
@@ -237,3 +238,8 @@ SampleWorkflow.start(
 The workflow will be submitted to SWF; assuming you have started a decision task handler on that domain and task list, the WorkflowExecutionStarted event will be picked up by SampleWorkflow::DecisionTaskHandler#handle
 
 See [the integration spec](sample-app/spec/integration/sample_workflow_spec.rb) for an end-to-end example.
+
+
+
+##Shameless Plug
+This project was supported in very large part by change.org. And we are hiring! If you want to come work with us and help empower people to Change the world while working on amazing technology [check out our jobs page](http://www.change.org/hiring).
