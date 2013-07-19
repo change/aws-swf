@@ -102,19 +102,49 @@ class ActivityTaskHandler < SWF::ActivityTaskHandler
 end
 ```
 
-Launching Workers
+Running your application
 =====================
-```
-$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./bin/swf_run.rb d d w w w
+
+###Launching Workers
+Launching workers for workflow and activity tasks is just as simple as calling `SampleApp::Boot.startup(num_deciders, num_workers, wait_for_children, &rescue)`. However in automating resource bootstrapping you might want a simple shell script like [bin/swf_run.rb](sample-app/bin/swf_run.rb)
+
+```ruby
+#!/usr/bin/env ruby
+
+require './lib/boot'
+
+def run!
+  startup_hash = ARGV.inject(Hash.new(0)) {|h,i| h[i.to_sym] += 1; h }
+  SampleApp::Boot.startup(startup_hash[:d], startup_hash[:w], true)
+end
+
+run!
 ```
 
-Launching a Workflow
-=====================
+which you can then call via init/upstart/monit/etc:
+
+```
+$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./sample-app/bin/swf_run.rb d d w w w
+```
+
+TODO
+- demonstrate starting workers on multiple physical resources
+- demonstrate automating launching EC2 resources, using tags to bootstrap
+
+
+###Starting a Workflow
+
+You start a workflow by calling the `start` method on your workflow module, passing input and configuration options (see [http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html#start_execution-instance_method](the docs) for configuration specifics)
+
 ```ruby
+SWF.domain_name = "some_domain"
 SampleWorkflow.start(
   { input_param: "some input" },
+  task_list: "some_task_list",
   execution_start_to_close_timeout: 3600,
 )
 ```
+
+The workflow will be submitted to SWF; assuming you have started a decision task handler on that domain and task list, the WorkflowExecutionStarted event will be picked up by SampleWorkflow::DecisionTaskHandler#handle
 
 See [the integration spec](sample-app/spec/integration/sample_workflow_spec.rb) for an end-to-end example.
