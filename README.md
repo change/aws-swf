@@ -107,7 +107,7 @@ end
 ##Running your application
 
 ###Launching Workers
-Launching workers for workflow and activity tasks is just as simple as calling `SampleApp::Boot.startup(num_deciders, num_workers, wait_for_children, &rescue)`. However in automating resource bootstrapping you might want a simple shell script like [bin/swf_run.rb](sample-app/bin/swf_run.rb)
+Launching workers for workflow and activity tasks is just as simple as calling `SampleApp::Boot.startup(num_deciders, num_workers, wait_for_children, &rescue)`. However in automating resource bootstrapping you might want a simple shell script like [sample-app/bin/swf_run.rb](sample-app/bin/swf_run.rb)
 
 ```ruby
 #!/usr/bin/env ruby
@@ -124,7 +124,7 @@ run!
 
 which you can then call via init/upstart/monit/etc:
 
-```
+```shell
 $ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./sample-app/bin/swf_run.rb d d w w w
 ```
 
@@ -135,7 +135,7 @@ TODO
 
 ###Starting a Workflow
 
-You start a workflow by calling the `start` method on your workflow module, passing input and configuration options (see [http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html#start_execution-instance_method](the docs) for configuration specifics)
+You start a workflow by calling the `start` method on your workflow module, passing input and configuration options (see [the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html#start_execution-instance_method) for configuration specifics)
 
 ```ruby
 SWF.domain_name = "some_domain"
