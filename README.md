@@ -58,6 +58,12 @@ class DecisionTaskHandler < SWF::DecisionTaskHandler
 end
 ```
 
+TODO
+- simple event handling workflow example
+- workflow example spawning multiple activities, etc
+- workflow example spawning child workflows and multiple activities
+
+
 There is a one-to-one correspondance between a workflow module and a workflow type on SWF. Your application might well consist of multiple workflow modules, however, where a parent workflow spawns child workflows:
 
 ```ruby
