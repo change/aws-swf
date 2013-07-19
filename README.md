@@ -1,4 +1,4 @@
-aws-swf
+aws-swf TEST
 ==========
 
 aws-swf is our light framework for developing distributed applications in Ruby to run on [AWS Simple Workflow](http://aws.amazon.com/swf/).
