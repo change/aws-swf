@@ -122,13 +122,11 @@ def handle
   new_events.each {|event|
     case event.event_type
     when 'WorkflowExecutionStarted'
-      schedule_child_workflows
-    when 'ChildWorkflowExecutionStarted'
-      scheduled_child_workflows << event.event_id
+      scheduled_child_workflows = schedule_child_workflows
     when 'ChildWorkflowExecutionFailed'
       child_workflow_failed = true
     when 'ChildWorkflowExecutionCompleted'
-      completed_child_workflows << event.attributes.initiated_event_id
+      completed_child_workflows << event.attributes.workflow_execution
     end
   }
 
