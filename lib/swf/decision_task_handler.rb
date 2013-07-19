@@ -11,15 +11,15 @@ module SWF
     @@handler_classes_by_name_version = {}
 
     # Register statically self (subclass) to handle workflow_type with given name and version
-    def self.register name, version
+    def self.register(name, version)
       @@handler_classes_by_name_version [ [name.to_s, version.to_s] ] = self
     end
 
-    def self.fail! task, args={}
+    def self.fail!(task, args={})
       task.fail_workflow_execution(args)
     end
 
-    def self.find_handler_class task
+    def self.find_handler_class(task)
       type = task.workflow_type
       @@handler_classes_by_name_version[ [type.name, type.version] ]
     end
@@ -50,7 +50,7 @@ module SWF
       enum_for(:_new_events)
     end
 
-    def _new_events &block
+    def _new_events(&block)
       events.each {|e|
         yield(e) if e.new?
       }

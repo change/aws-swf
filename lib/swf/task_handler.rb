@@ -5,7 +5,7 @@ module SWF
   # use extend, not include
   module TaskHandler
 
-    def handle runner, task
+    def handle(runner, task)
       handler_class = nil
       handler       = nil
       begin
@@ -40,7 +40,7 @@ module SWF
 
     private
 
-    def get_handler_class_or_fail task
+    def get_handler_class_or_fail(task)
       find_handler_class(task).tap {|handler_class|
         unless handler_class
           details_text = "This is a configuration issue.\n#{configuration_help_message}"

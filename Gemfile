@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
-gem 'aws-sdk', '1.6.4'
+gem 'aws-sdk'
 gem 'rake'
 gem 'rspec', group: :test

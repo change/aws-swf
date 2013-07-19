@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vijay Krishna Ramesh", "Tim James"]
-  s.date = "2013-07-18"
-  s.email = "vijay@change.org"
+  s.date = "2013-07-19"
+  s.email = ["vijay@change.org"]
   s.executables = ["swf_run"]
   s.extra_rdoc_files = ["README.md"]
-  s.files = ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "bin/swf_run", "spec/swf/activity_task_handler_spec.rb", "spec/swf/boot_spec.rb", "spec/swf/decision_task_handler_spec.rb", "spec/swf/runner_spec.rb", "spec/swf/task_handler_spec.rb", "spec/swf_spec.rb", "lib/swf/activity_task_handler.rb", "lib/swf/boot.rb", "lib/swf/decision_task_handler.rb", "lib/swf/runner.rb", "lib/swf/task_handler.rb", "lib/swf.rb", "lib/workflows.rb", "lib/aws-swf.rb"]
+  s.files = ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "bin/swf_run", "spec/swf/activity_task_handler_spec.rb", "spec/swf/boot_spec.rb", "spec/swf/decision_task_handler_spec.rb", "spec/swf/runner_spec.rb", "spec/swf/task_handler_spec.rb", "spec/swf_spec.rb", "lib/aws-swf.rb", "lib/swf/activity_task_handler.rb", "lib/swf/boot.rb", "lib/swf/decision_task_handler.rb", "lib/swf/runner.rb", "lib/swf/task_handler.rb", "lib/swf.rb", "lib/workflows.rb"]
   s.homepage = "https://github.com/change/aws-swf"
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
