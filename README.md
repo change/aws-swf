@@ -91,12 +91,27 @@ class DecisionTaskHandler < SWF::DecisionTaskHandler
 end
 ```
 
+####Event handling
+Your workflow does sequential event handling across a distributed network of deciders - scheduling activities, acting on success/failure, creating child workflows, etc. For a full list of history events, [see the docs](http://docs.aws.amazon.com/sdkfornet/latest/apidocs/html/T_Amazon_SimpleWorkflow_Model_HistoryEvent.htm).
+
+#####Simple workflow - single activity
+```ruby
+def handle
+  new_events.each {|event|
+    case event.event_type
+    when 'WorkflowExecutionStarted'
+      schedule_sample_activity
+    when 'ActivityTaskCompleted'
+      decision_task.complete_workflow_execution
+    end
+  }
+end
+```
+
+#####Multiple activities
 TODO
-- simple event handling workflow example
-- workflow example spawning multiple activities, etc
-- workflow example spawning child workflows and multiple activities
 
-
+#####Child workflows
 There is a one-to-one correspondance between a workflow module and a workflow type on SWF. Your application might well consist of multiple workflow modules, however, where a parent workflow spawns child workflows:
 
 ```ruby
