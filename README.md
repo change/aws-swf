@@ -7,8 +7,11 @@ At [change.org](http://www.change.org) we use aws-swf to drive parallelized and 
 
 While we use aws-swf on EC2, any resource - including your laptop - can be a task runner. This makes integration testing a breeze - you can test the core functionality of your activity task handlers, test the flow control of your decision task handlers, and then actually test end-to-end (against a test domain on SWF) against fixtures from your development box.
 
-For the purposes of this tutorial, we are going to leave dynamic resource allocation and bootstrapping off the table, and just focus on building an application that we can run locally. You can follow along with the example in [sample-app](sample-app/).
+For the purposes of this tutorial, we are going to leave dynamic resource allocation and bootstrapping off the table, and just focus on building an application that can be run locally. You can follow along with the example in [sample-app](sample-app/).
 
+SWF tl;dr
+=========
+In way too short, SWF allows you to define activities (units of work to be performed) and workflows (decision/flow-control logic that schedules activities based on dependencies, handles failures, etc). You register both under a SWF domain, and can then poll that domain for a given tasklist from any resource (EC2, metal, or other cloud). AWS serves as a centralized store for your distributed deciders and workers - handling message coordination and ensuring decision tasks are processed sequentially. Your decider workflows schedule (often massively parallel) activities, await for success/failure, and then act accordingly. New deciders and activity workers can be brought up and down on demand, and with a small amount of care to handling timeouts, etc, your distributed application can be made incredibly robust and resilient to intermittent failures and network connectivity issues, as well as easily adaptable to different data-scales and time-constraints. Look through the [Introduction to Amazon Simple Workflow Service](http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-intro-to-swf.html) docs for more information.
 
 App Structure
 =========
