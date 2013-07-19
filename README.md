@@ -21,7 +21,19 @@ An aws-swf application has a few basic components:
 extends [SWF::Boot](lib/swf/boot.rb), defines `swf_runner` which calls your Runner, passing any settings.
 
 ###[SampleApp::Runner](sample-app/lib/runner.rb)
-subclass of [SWF::Runner](lib/swf/runner.rb), allows you to setup any global settings you want accessible to all workers. You can also redefine `be_worker` or `be_decider` to add before and after hooks:
+subclass of [SWF::Runner](lib/swf/runner.rb), allows you to setup any global settings you want accessible to all workers. Your runner must define `domain_name` and `task_list_name` (probably as methods that parse settings)
+
+```ruby
+def domain_name
+  settings[:swf_domain]
+end
+
+def task_list_name
+  [ settings[:s3_bucket], settings[:s3_path] ].join(":")
+end
+```
+
+You can also redefine `be_worker` or `be_decider` to add before and after hooks:
 
 ```ruby
 def be_worker
