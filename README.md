@@ -138,6 +138,18 @@ def handle
     decision_task.complete_workflow_execution
   end
 end
+
+def schedule_child_workflows
+  10.times.map {|i|
+    decision_task.start_child_workflow_execution(
+      AnotherWorkflow.workflow_type,
+      input: another_input_hash(i).to_json,
+      task_list: decision_task.workflow_execution.task_list,
+      tag_list: another_tag_array(i),
+    )
+  }
+end
+
 ```
 
 ###[SampleApp::SampleActivity](sample-app/lib/sample_activity.rb)
