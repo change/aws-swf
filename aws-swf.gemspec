@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "aws-swf"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vijay Krishna Ramesh", "Tim James"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files = ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "bin/swf_run", "spec/swf/activity_task_handler_spec.rb", "spec/swf/boot_spec.rb", "spec/swf/decision_task_handler_spec.rb", "spec/swf/runner_spec.rb", "spec/swf/task_handler_spec.rb", "spec/swf_spec.rb", "lib/aws-swf.rb", "lib/swf/activity_task_handler.rb", "lib/swf/boot.rb", "lib/swf/decision_task_handler.rb", "lib/swf/runner.rb", "lib/swf/task_handler.rb", "lib/swf.rb", "lib/workflows.rb"]
   s.homepage = "https://github.com/change/aws-swf"
   s.rdoc_options = ["--main", "README.md"]
-  s.require_paths = ["lib"]
+  s.require_paths = ["lib", "lib/swf"]
   s.rubygems_version = "1.8.23"
   s.summary = "light framework for creating AWS Simple Workflow applications in Ruby."
 
