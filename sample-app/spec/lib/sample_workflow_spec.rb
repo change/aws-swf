@@ -102,8 +102,8 @@ describe SampleWorkflow do
       describe '#schedule_sample_activity' do
         it 'schedules an activity_type_sample_activity activity task with the proper arguments' do
           SampleActivity.stub(:activity_type_sample_activity).and_return(:activity_type_sample_activity)
-          activity_task_input = workflow_started_input.merge({other_param: "injected"})
-          decision_task.should_receive(:schedule_activity_task).with(:activity_type_sample_activity, input: activity_task_input, task_list: task_list)
+          activity_task_input = workflow_started_input.merge({decision_param: "decision"})
+          decision_task.should_receive(:schedule_activity_task).with(:activity_type_sample_activity, input: activity_task_input.to_json, task_list: task_list)
           handler.send(:schedule_sample_activity)
         end
       end

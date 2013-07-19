@@ -31,7 +31,8 @@ module SampleActivity
       runner.s3_bucket.objects[runner.s3_path].write(
         {
           input_param: activity_task_input["input_param"],
-          other_param: activity_task_input["other_param"]
+          decision_param: activity_task_input["decision_param"],
+          activity_param: "activity"
         }.to_json
       )
     end

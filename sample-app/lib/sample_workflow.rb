@@ -5,13 +5,13 @@ module SampleWorkflow
 
   extend SWF::Workflows
 
-  WORKFLOW_TYPE    = 'sample_workflow'
+  WORKFLOW_NAME    = 'sample_workflow'
   WORKFLOW_VERSION = '1'
 
   # this tells SWF what workflow type this module handles
   # it is currently a one-to-one correspondance
   def self.workflow_type
-    effect_workflow_type(WORKFLOW_TYPE, WORKFLOW_VERSION,
+    effect_workflow_type(WORKFLOW_NAME, WORKFLOW_VERSION,
       default_child_policy:         :request_cancel,
       default_task_start_to_close_timeout:      3600,
       default_execution_start_to_close_timeout: 3600,
@@ -19,8 +19,7 @@ module SampleWorkflow
   end
 
   class DecisionTaskHandler < SWF::DecisionTaskHandler
-    register(WORKFLOW_TYPE, WORKFLOW_VERSION) # registers the class with the workflow type
-
+    register(WORKFLOW_NAME, WORKFLOW_VERSION) # registers the class with the workflow type
     # the decider will poll for new events
     # if they are of type ('sample_workflow', '1') they will get passed to handle
     def handle
@@ -39,9 +38,8 @@ module SampleWorkflow
     end
 
     def schedule_sample_activity
-      decision_task.schedule_activity_task(
-        SampleActivity.activity_type_sample_activity(runner),
-        input: workflow_input.merge({other_param: 'injected'}),
+      decision_task.schedule_activity_task(SampleActivity.activity_type_sample_activity(runner),
+        input: workflow_input.merge({decision_param: 'decision'}).to_json,
         task_list: workflow_task_list
       )
     end

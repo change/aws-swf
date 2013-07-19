@@ -1,4 +1,5 @@
 require 'aws-swf'
+require './lib/runner'
 
 module SampleApp; end
 

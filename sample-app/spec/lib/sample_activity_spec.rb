@@ -37,7 +37,7 @@ describe SampleActivity do
     let(:activity_input) {
       {
         "input_param" => "input",
-        "other_param" => "foobar"
+        "decision_param" => "decision"
       }
     }
     let(:activity_task) {
@@ -52,7 +52,7 @@ describe SampleActivity do
 
     describe '#handle_sample_activity' do
       it "returns the params" do
-        s3_object.should_receive(:write).with(activity_input.to_json)
+        s3_object.should_receive(:write).with(activity_input.merge({activity_param: "activity"}).to_json)
         handler.send(:handle_sample_activity)
       end
     end
