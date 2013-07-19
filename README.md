@@ -105,7 +105,7 @@ end
 Launching Workers
 =====================
 ```
-$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR ruby ./bin/swf_run.rb d d w w w
+$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./bin/swf_run.rb d d w w w
 ```
 
 Launching a Workflow
