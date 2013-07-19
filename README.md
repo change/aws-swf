@@ -63,6 +63,13 @@ def be_worker
   build_data_index
   super
 end
+
+def build_data_index
+  # fetch data from s3, build a binary index, etc
+  # make sure to wrap in a mutex so multiple workers
+  # on the same resource don't override one-another
+  ...
+end
 ```
 
 ###[SampleApp::SampleWorkflow](sample-app/lib/sample_workflow.rb)
@@ -107,6 +114,13 @@ def handle
       decision_task.fail_workflow_execution
     end
   }
+end
+
+def schedule_sample_activity
+  decision_task.schedule_activity_task(SampleActivity.activity_type_sample_activity(runner),
+    input: workflow_input.merge({decision_param: 'decision'}).to_json,
+    task_list: workflow_task_list
+  )
 end
 ```
 
@@ -153,7 +167,7 @@ end
 ```
 
 ###[SampleApp::SampleActivity](sample-app/lib/sample_activity.rb)
-An activity module can handle multiple activity types. For each it must define a `self.activity_type_<activity_name>` method that receives a runner and calls `runner.effect_activity_type`. This is where you can set activity specific timeouts (again, [see the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/ActivityType.html))
+An activity module can handle multiple activity types. For each it must define an `activity_type_<activity_name>` class method that receives a runner and calls `runner.effect_activity_type`. This is where you can set activity specific timeouts (again, [see the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/ActivityType.html))
 
 ```ruby
 def self.activity_type_sample_activity(runner)
