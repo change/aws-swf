@@ -19,6 +19,10 @@ module SWF
       send self.class.handler_method_name(activity_task)
     end
 
+    def activity_task_input
+      JSON.parse(activity_task.input)
+    end
+
     # Register statically self (subclass) to handle activities
     def self.register
       @@handler_classes << self

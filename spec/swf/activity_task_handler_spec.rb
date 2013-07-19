@@ -19,7 +19,8 @@ describe subject_class do
   end
 
   let(:subject){ subject_class.new(:runner_placeholder, task) }
-  let(:task){ double(:task, activity_type: double(name: 'fake_activity')) }
+  let(:input) { {"some" => "data"} }
+  let(:task){ double(:task, activity_type: double(name: 'fake_activity'), input: input.to_json) }
   describe '#initialize' do
     it 'sets runner & decision_task' do
       subject.runner.should == :runner_placeholder
@@ -27,13 +28,17 @@ describe subject_class do
     end
   end
 
-
-
   describe '#call_handle' do
     it "calls #handle_* method" do
       subject.should_receive(:handle_fake_activity)
 
       subject.call_handle
+    end
+  end
+
+  describe '#activity_task_input' do
+    it 'JSON parses activity_task.input' do
+      subject.activity_task_input.should == input
     end
   end
 
