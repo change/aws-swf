@@ -134,11 +134,8 @@ def schedule_sample_activity
 end
 ```
 
-#####Multiple activities
-TODO
-
 #####Child workflows
-There is a one-to-one correspondance between a workflow module and a workflow type on SWF. However, an application may have multiple child workflows that a parent workflow initiates and handles.
+There is a one-to-one correspondance between a workflow module and a workflow type on SWF. However, an application may have multiple child workflows that a parent workflow initiates and handles. A child workflow is just a normal workflow that signals to the parent workflow when execution is complete/failed.
 
 ```ruby
 def handle
@@ -173,8 +170,10 @@ def schedule_child_workflows
     )
   }
 end
-
 ```
+
+#####Multiple activities
+TODO
 
 ###[SampleApp::SampleActivity](sample-app/lib/sample_activity.rb)
 An activity module can handle multiple activity types. For each it must define an `activity_type_<activity_name>` class method that receives a runner and calls `runner.effect_activity_type`. This is where you can set activity specific timeouts (again, [see the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/ActivityType.html))
