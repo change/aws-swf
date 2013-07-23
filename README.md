@@ -9,16 +9,26 @@ While we use aws-swf on EC2, any resource - including your laptop - can be a tas
 
 For the purposes of this tutorial, we are going to leave dynamic resource allocation and bootstrapping off the table, and just focus on building an application that can be run locally. You can follow along with the example in [sample-app](sample-app/).
 
-##Amazon Simple Workflow
+## Amazon Simple Workflow
 SWF allows you to define activities (units of work to be performed) and workflows (decision/flow-control logic that schedules activities based on dependencies, handles failures, etc). You register both under a SWF domain, and can then poll that domain for a given tasklist from any resource (EC2, metal, or other cloud). AWS serves as a centralized place to poll for your distributed deciders and workers - handling message coordination and ensuring decision tasks are processed sequentially. Your decider workflows schedule (often massively parallel) activities, await for success/failure, and then act accordingly. New deciders and activity workers can be brought up and down on demand, and with a small amount of care to handling timeouts and failures, your distributed application can be made incredibly robust and resilient to intermittent failures and network connectivity issues, as well as easily adaptable to different data-scales and time-constraints. Look through the [Introduction to Amazon Simple Workflow Service](http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-intro-to-swf.html) docs for more information.
 
-##App Structure
+## App Structure
 
-An aws-swf application has a few basic components:
+An aws-swf application has three basic components:
 
+### Workflows
+These define your decision task handling. A workflow is responsible for starting activities/child-workflows and handling success/failure.
+
+### Activities
+An activity is where your aws-swf application does actual units of work. Your workflow will initiate activities, passing on input data. Returns success or failure back to the workflow.
+
+### Runner
+Your application includes a Boot module that creates a Runner instance. This is what sets a resource up to poll SWF for decisions and activities.
+
+## SampleApp
 
 ###[SampleApp::Boot](sample-app/lib/boot.rb)
-extends [SWF::Boot](lib/swf/boot.rb), loads settings from the environment (or a chef data bag, or s3, or locally on the worker node, etc), and defines `swf_runner` which calls your Runner, passing any settings.
+extends [SWF::Boot](lib/swf/boot.rb), loads settings from the environment (or a chef data bag, or S3, or locally on the worker node, etc), and defines `swf_runner` which calls your Runner, passing any settings.
 
 ```ruby
 module SampleApp::Boot
