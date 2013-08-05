@@ -1,9 +1,13 @@
 ---
 layout: page
 title: aws-swf
-tagline: distributed ruby applications for simple workflow
+tagline: distributed ruby applications
 ---
 {% include JB/setup %}
+
+aws-swf is our light framework for developing distributed applications in Ruby to run on [AWS Simple Workflow](http://aws.amazon.com/swf/).
+
+## Quickstart
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
