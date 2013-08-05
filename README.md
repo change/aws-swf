@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/change/aws-swf.png)](http://travis-ci.org/change/aws-swf)
+
 aws-swf
 ==========
 
