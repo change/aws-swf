@@ -12,6 +12,7 @@ pygments: true
 title : aws-swf
 tagline: distributed ruby applications on aws simple workflow
 author :
+  organization: change.org
   name : Vijay Ramesh
   email : vijay@change.org
   github : vijaykramesh
@@ -25,6 +26,8 @@ author :
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
 production_url : http://change.github.io/aws-swf
+
+markdown: redcarpet
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
