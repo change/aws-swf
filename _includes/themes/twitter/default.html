@@ -37,10 +37,12 @@
       <div class="navbar-inner">
         <div class="container-narrow">
           <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
+
           <ul class="nav">
             {% assign pages_list = site.pages %}
             {% assign group = 'navigation' %}
             {% include JB/pages_list %}
+            <li><a href="http://travis-ci.org/change/aws-swf" title="Build status"><img width="84" src="https://secure.travis-ci.org/change/aws-swf.png"></a></li>
           </ul>
         </div>
       </div>
@@ -53,7 +55,7 @@
       </div>
       <hr>
       <footer>
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.organization }}
+        <p>&copy; {{ site.time | date: '%Y' }} <a href="{{ site.author.website }}">{{ site.author.organization }}</a>
           with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
           and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
         </p>

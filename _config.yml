@@ -13,6 +13,7 @@ title : aws-swf
 tagline: distributed ruby applications on aws simple workflow
 author :
   organization: change.org
+  website: https://www.change.org
   name : Vijay Ramesh
   email : vijay@change.org
   github : vijaykramesh
