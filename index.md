@@ -1,7 +1,7 @@
 ---
 layout: page
 title: aws-swf
-tagline: distributed ruby applications
+tagline: distributed ruby on aws
 ---
 {% include JB/setup %}
 
