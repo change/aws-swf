@@ -5,7 +5,7 @@ tagline: distributed ruby on aws
 ---
 {% include JB/setup %}
 
-aws-swf is a light framework for developing distributed applications in ruby to run on [AWS Simple Workflow](http://aws.amazon.com/swf/).
+aws-swf is a light framework for developing distributed applications in [Ruby](http://www.ruby-lang.org/en/) to run on [AWS Simple Workflow](http://aws.amazon.com/swf/).
 
 ### Installation
 aws-swf is hosted on [Rubygems](https://rubygems.org/gems/aws-swf)
