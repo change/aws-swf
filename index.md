@@ -39,7 +39,7 @@ This project is licensed under [the MIT license](https://github.com/change/aws-s
 <br>
 
 ### Shameless Plug
-This project was supported in very large part by change.org. And we are hiring! If you want to come work with us and help empower people to Change the world while working on amazing technology [check out our jobs page](http://www.change.org/hiring).
+This project was supported in very large part by change.org. And we are hiring! If you want to come work with us and help empower people to change the world while working on amazing technology [check out our jobs page](http://www.change.org/hiring).
 
 
 
