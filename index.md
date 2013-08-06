@@ -16,7 +16,7 @@ Simply add the following to your `Gemfile`:
 gem 'aws-swf'
 ```
 
-Also take a look through our [quickstart tutorial](/pages/quickstart/)
+Also take a look through our [quickstart tutorial](/aws-swf/pages/quickstart/)
 
 <br>
 
