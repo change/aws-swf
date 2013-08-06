@@ -26,7 +26,7 @@ Your application includes a Boot module that creates a Runner instance. This is 
 <br>
 
 ### Workflows
-####[SampleApp::SampleWorkflow](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/lib/sample_workflow.rb)
+####[SampleWorkflow](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/lib/sample_workflow.rb)
 A workflow extends [SWF::Workflow](https://github.com/change/aws-swf/blob/master/lib/workflows.rb). It should also define a `self.workflow_type` method that calls `effect_workflow_type` to register the module. This is where you can set default timeouts for the workflow type (see the [aws-sdk docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/WorkflowType.html) for all available parameters). Note that if you change one of these defaults, you must increment `WORKFLOW_VERSION`:
 
 ```ruby
@@ -129,7 +129,7 @@ end
 <br>
 
 ### Activities
-####[SampleApp::SampleActivity](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/lib/sample_activity.rb)
+####[SampleActivity](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/lib/sample_activity.rb)
 An activity module can handle multiple activity types. For each it must define an `activity_type_<activity_name>` class method that receives a runner and calls `runner.effect_activity_type`. This is where you can set activity specific timeouts (again, [see the docs](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SimpleWorkflow/ActivityType.html))
 
 ```ruby
@@ -160,7 +160,7 @@ end
 ###Running your application
 
 ####Launching Workers
-Launching workers for workflow and activity tasks is just as simple as calling `SampleApp::Boot.startup(num_deciders, num_workers, wait_for_children, &rescue)`. However in automating resource bootstrapping you might want a simple shell script like [sample-app/bin/swf_run.rb](sample-app/bin/swf_run.rb)
+Launching workers for workflow and activity tasks is just as simple as calling `SampleApp::Boot.startup(num_deciders, num_workers, wait_for_children, &rescue)`. However in automating resource bootstrapping you might want [a simple shell script](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/bin/swf_run.rb):
 
 ```ruby
 #!/usr/bin/env ruby
@@ -178,14 +178,10 @@ run!
 which you can then call via init/upstart/monit/etc:
 
 ```bash
-$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./sample-app/bin/swf_run.rb d d w w w
+$ SWF_DOMAIN=some_domain S3_BUCKET=some_bucket S3_PATH=some_path LOCAL_DATA_DIR=/tmp ruby ./bin/swf_run.rb d d w w w
 ```
 
-TODO
-- demonstrate starting workers on multiple physical resources
-- demonstrate automating launching EC2 resources, using tags to bootstrap
-- demonstrate rescue logging to S3
-
+<br>
 
 ####Starting a Workflow
 
@@ -203,5 +199,16 @@ SampleWorkflow.start(
 The workflow will be submitted to SWF; assuming you have started a decision task handler on that domain and task list, the WorkflowExecutionStarted event will be picked up by SampleWorkflow::DecisionTaskHandler#handle
 
 See [the integration spec](https://github.com/vijaykramesh/sample-aws-swf-app/blob/master/spec/integration/sample_workflow_spec.rb) for an end-to-end example.
+
+<br>
+
+####TODO
+```
+- demonstrate starting workers on multiple physical resources
+- demonstrate automating launching EC2 resources, using tags to bootstrap
+- demonstrate rescue logging to S3
+```
+
+<br>
 
 ### What's next?
