@@ -68,3 +68,21 @@
   min-width: 77px;
   min-height: 19px;
 }
+
+ol.nested
+{
+    counter-reset: item
+}
+li.nested
+{
+    display: block
+}
+li.nested:before
+{
+    content: counters(item, ".") ". ";
+    counter-increment: item
+}
+
+.back-to-top {
+  cursor: pointer;
+}
