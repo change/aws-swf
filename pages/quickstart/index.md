@@ -209,6 +209,3 @@ See [the integration spec](https://github.com/vijaykramesh/sample-aws-swf-app/bl
 - demonstrate rescue logging to S3
 ```
 
-<br>
-
-### What's next?
