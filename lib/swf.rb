@@ -18,7 +18,7 @@ module SWF
   end
 
   # in the runner context, where domain_name comes from ENV settings we call
-  # FeatureMatrix::SWF.domain_name = FeatureMatrix::Settings.swf_domain
+  # SWF.domain_name = MyApp::Settings.swf_domain
   def domain_name=(d)
     @domain_name = d
   end

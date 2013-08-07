@@ -98,7 +98,7 @@ describe subject_class do
   }
 
   describe '#workflow_started_event' do
-    it 'raises FeatureMatrix::Workflows::MissingWorkflowStartedEvent if there is no WorkflowExecutionStartedEvent' do
+    it 'raises SWF::MissingWorkflowStartedEvent if there is no WorkflowExecutionStartedEvent' do
       ->{ subject.send(:workflow_started_event) }.should raise_exception(SWF::MissingWorkflowStartedEvent)
     end
     it 'otherwise returns the workflow started event' do
