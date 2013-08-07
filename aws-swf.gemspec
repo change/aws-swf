@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "aws-swf"
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vijay Krishna Ramesh", "Tim James"]
-  s.date = "2013-07-19"
+  s.date = "2013-08-07"
   s.email = ["vijay@change.org"]
   s.executables = ["swf_run"]
   s.extra_rdoc_files = ["README.md"]
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.summary = "light framework for creating AWS Simple Workflow applications in Ruby."
 
+  s.add_dependency "aws-sdk", "~> 1"
   if s.respond_to? :specification_version then
     s.specification_version = 3
 

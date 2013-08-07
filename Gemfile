@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
-gem 'aws-sdk'
-gem 'rake'
-gem 'rspec', group: :test
+gemspec
+
+group :test do
+  gem "rspec", "~> 2.1"
+  gem "rake"
+end
