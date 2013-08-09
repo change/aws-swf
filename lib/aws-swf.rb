@@ -1,5 +1,5 @@
-require 'swf'
-require 'workflows'
+require 'swf/swf'
+require 'swf/workflows'
 require 'swf/boot'
 require 'swf/decision_task_handler'
 require 'swf/activity_task_handler'
