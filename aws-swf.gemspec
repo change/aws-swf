@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["vijay@change.org"]
   s.executables = ["swf_run"]
   s.extra_rdoc_files = ["README.md"]
-  s.files = ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "bin/swf_run", "spec/swf/activity_task_handler_spec.rb", "spec/swf/boot_spec.rb", "spec/swf/decision_task_handler_spec.rb", "spec/swf/runner_spec.rb", "spec/swf/task_handler_spec.rb", "spec/swf_spec.rb", "lib/aws-swf.rb", "lib/swf/activity_task_handler.rb", "lib/swf/boot.rb", "lib/swf/decision_task_handler.rb", "lib/swf/runner.rb", "lib/swf/task_handler.rb", "lib/swf.rb", "lib/workflows.rb"]
+  s.files = ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "bin/swf_run", "spec/swf/activity_task_handler_spec.rb", "spec/swf/boot_spec.rb", "spec/swf/decision_task_handler_spec.rb", "spec/swf/runner_spec.rb", "spec/swf/task_handler_spec.rb", "spec/swf_spec.rb", "lib/aws-swf.rb", "lib/swf/activity_task_handler.rb", "lib/swf/boot.rb", "lib/swf/decision_task_handler.rb", "lib/swf/runner.rb", "lib/swf/task_handler.rb", "lib/swf/swf.rb", "lib/swf/workflows.rb"]
   s.homepage = "http://change.github.io/aws-swf"
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib", "lib/swf"]
