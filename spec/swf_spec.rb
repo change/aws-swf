@@ -1,4 +1,4 @@
-require './lib/swf'
+require './lib/swf/swf'
 
 describe SWF do
 
