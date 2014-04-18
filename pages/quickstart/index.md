@@ -91,7 +91,8 @@ def handle
   child_workflow_failed = false
   scheduled_child_workflows = []
   completed_child_workflows = []
-  new_events.each {|event|
+  
+  events.each {|event|
     case event.event_type
     when 'WorkflowExecutionStarted'
       scheduled_child_workflows = schedule_child_workflows
