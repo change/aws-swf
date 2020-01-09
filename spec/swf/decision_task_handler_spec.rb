@@ -78,8 +78,8 @@ describe subject_class do
 
     it 'enumerates over new events' do
       subject.send(:new_events).each {|e|
-        new_events.include?(e).should be_true
-        old_events.include?(e).should be_false
+        new_events.include?(e).should be true
+        old_events.include?(e).should be false
       }
     end
 
